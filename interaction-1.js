@@ -12,7 +12,7 @@ let dspNodeParams = null;
 let jsonParams = null;
 
 // Change this to match the name of your wasm file
-const dspName = "frenchBell";
+const dspName = "brass";
 const instance = new FaustWasm2ScriptProcessor(dspName);
 
 // output to window or npm package module
@@ -101,10 +101,10 @@ function playAudio() {
     if (audioContext.state === 'suspended') {
         return;
     }
-    // Edit here the addresses depending on your WASM controls (you can see
-    // them printed on the console of your browser when you load the page)
-    dspNode.setParamValue("/frenchBell/gate", 1)
-    setTimeout(() => { dspNode.setParamValue("/frenchBell/gate", 0) }, 100);
+    dspNode.setParamValue("/brass/blower/pressure", 1);
+    setTimeout(() => {
+        dspNode.setParamValue("/brass/blower/pressure", 0);
+    }, 100);
 }
 
 //==========================================================================================
