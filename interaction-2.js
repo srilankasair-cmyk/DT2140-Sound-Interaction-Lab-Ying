@@ -58,7 +58,7 @@ function accelerationChange(accx, accy, accz) {
     }
 
     const accelerationMagnitude = Math.hypot(accx, accy, accz);
-    currentVolume = Math.min(accelerationMagnitude / 20, 1);
+    currentVolume = Math.min(accelerationMagnitude / 5, 1);
 }
 
 function rotationChange(rotx, roty, rotz) {

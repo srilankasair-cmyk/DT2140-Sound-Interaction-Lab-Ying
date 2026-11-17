@@ -56,8 +56,9 @@ function accelerationChange(accx, accy, accz) {
 }
 
 function rotationChange(rotx, roty, rotz) {
-    if (roty < -50) {
-        const tilt = Math.min(-roty, 90);
+    const tilt = Math.abs(roty);
+
+    if (tilt >= 50 && tilt <= 90) {
         const interval = 700 - ((tilt - 50) / 40) * 550;
         const now = millis();
 
