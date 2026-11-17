@@ -10,6 +10,7 @@
 let dspNode = null;
 let dspNodeParams = null;
 let jsonParams = null;
+let lastDropPlayback = -Infinity;
 
 // Change this to match the name of your wasm file
 const dspName = "drop";
@@ -55,10 +56,22 @@ function accelerationChange(accx, accy, accz) {
 }
 
 function rotationChange(rotx, roty, rotz) {
+    if (roty < -50) {
+        const tilt = Math.min(-roty, 90);
+        const interval = 700 - ((tilt - 50) / 40) * 550;
+        const now = millis();
+
+        if (now - lastDropPlayback >= interval) {
+            lastDropPlayback = now;
+            playAudio();
+        }
+    } else {
+        lastDropPlayback = -Infinity;
+    }
 }
 
 function mousePressed() {
-    playAudio()
+    //playAudio()
     // Use this for debugging from the desktop!
 }
 

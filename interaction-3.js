@@ -10,6 +10,7 @@
 let dspNode = null;
 let dspNodeParams = null;
 let jsonParams = null;
+let lastDragTime = 0;
 
 // Change here to ("tuono") depending on your wasm file name
 const dspName = "brass";
@@ -59,7 +60,23 @@ function rotationChange(rotx, roty, rotz) {
 }
 
 function mousePressed() {
-    playAudio(mouseX/windowWidth)
+    lastDragTime = millis();
+    playAudio(0);
+    // Use this for debugging from the desktop!
+}
+
+function mouseDragged() {
+    const now = millis();
+    const elapsed = Math.max(now - lastDragTime, 1);
+    const distance = Math.hypot(mouseX - pmouseX, mouseY - pmouseY);
+    const speed = distance / elapsed * 1000;
+
+    playAudio(Math.min(speed / 600, 1));
+    lastDragTime = now;
+}
+
+function mouseReleased() {
+    playAudio(0);
     // Use this for debugging from the desktop!
 }
 
@@ -74,7 +91,6 @@ function deviceTurned() {
 function deviceShaken() {
     shaketimer = millis();
     statusLabels[0].style("color", "pink");
-    playAudio();
 }
 
 function getMinMaxParam(address) {

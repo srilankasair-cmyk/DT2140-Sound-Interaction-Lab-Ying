@@ -10,6 +10,7 @@
 let dspNode = null;
 let dspNodeParams = null;
 let jsonParams = null;
+let currentVolume = 0.5;
 
 // Change here to ("tuono") depending on your wasm file name
 const dspName = "bells";
@@ -52,7 +53,12 @@ bells.createDSP(audioContext, 1024)
 //==========================================================================================
 
 function accelerationChange(accx, accy, accz) {
-    // playAudio()
+    if (![accx, accy, accz].every(Number.isFinite)) {
+        return;
+    }
+
+    const accelerationMagnitude = Math.hypot(accx, accy, accz);
+    currentVolume = Math.min(accelerationMagnitude / 20, 1);
 }
 
 function rotationChange(rotx, roty, rotz) {
@@ -102,6 +108,7 @@ function playAudio() {
     if (audioContext.state === 'suspended') {
         return;
     }
+    dspNode.setParamValue("/englishBell/gain", currentVolume);
     dspNode.setParamValue("/englishBell/gate", 1)
     setTimeout(() => { dspNode.setParamValue("/englishBell/gate", 0) }, 100);
 }
