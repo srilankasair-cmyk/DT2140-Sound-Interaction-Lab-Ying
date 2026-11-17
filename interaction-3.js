@@ -12,7 +12,7 @@ let dspNodeParams = null;
 let jsonParams = null;
 
 // Change here to ("tuono") depending on your wasm file name
-const dspName = "drop";
+const dspName = "brass";
 const instance = new FaustWasm2ScriptProcessor(dspName);
 
 // output to window or npm package module
@@ -103,7 +103,7 @@ function playAudio(pressure = 1) {
         return;
     }
     console.log(pressure)
-    dspNode.setParamValue("/drop/drop", pressure)
+    dspNode.setParamValue("/brass/blower/pressure", pressure)
 }
 
 //==========================================================================================
